@@ -1,5 +1,9 @@
+"use client";
 import React from "react";
+import { useTimerContext } from "../context/TimerContext";
 
 export const Timer: React.FC = ({}) => {
-  return <div>timer</div>;
+  const { getFormattedTime } = useTimerContext();
+
+  return <div>{getFormattedTime()}</div>;
 };

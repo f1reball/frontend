@@ -2,6 +2,7 @@
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import type { CardType, GameContextType, Selected } from "./types";
 import { v4 } from "uuid";
+import { useTimerContext } from "./TimerContext";
 
 export const GameContext = createContext<GameContextType>({
   cardData: [],
@@ -21,6 +22,7 @@ export const useGameContext = () => {
 };
 
 export const GameContextProvider: React.FC<Props> = ({ children }) => {
+  const { stopTimer, resetTimer } = useTimerContext();
   const [cardData, setCardData] = useState<CardType[]>(() =>
     generateCardArray()
   );
@@ -30,7 +32,7 @@ export const GameContextProvider: React.FC<Props> = ({ children }) => {
 
   function generateCardArray(): CardType[] {
     const arr: CardType[] = [];
-    for (let i = 0; i <= 3; i++) {
+    for (let i = 0; i <= 17; i++) {
       const id1 = v4();
       const id2 = v4();
       arr.push({ id: id1, matchId: id2, imageId: i, status: "hidden" });
@@ -78,10 +80,14 @@ export const GameContextProvider: React.FC<Props> = ({ children }) => {
     setSelected(() => []);
     setIsAwaitingFlipback(false);
     setIsGameComplete(false);
+    resetTimer();
   }
 
   useEffect(() => {
-    setIsGameComplete(cardData.every((c) => c.status === "matched"));
+    if (cardData.every((c) => c.status === "matched")) {
+      setIsGameComplete(true);
+      stopTimer();
+    }
   }, [cardData]);
 
   const value = useMemo(() => {

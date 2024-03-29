@@ -16,4 +16,11 @@ type GameContextType = {
   resetGame: () => void;
 };
 
-export type { CardType, GameContextType, Selected };
+type TimerContextType = {
+  time: number;
+  stopTimer: () => void;
+  resetTimer: () => void;
+  getFormattedTime: () => string;
+};
+
+export type { CardType, GameContextType, Selected, TimerContextType };
