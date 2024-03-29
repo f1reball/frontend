@@ -4,6 +4,7 @@ import type { TimerContextType } from "./types";
 
 export const TimerContext = createContext<TimerContextType>({
   time: 0,
+  addTime: () => undefined,
   stopTimer: () => undefined,
   resetTimer: () => undefined,
   getFormattedTime: () => "",
@@ -20,6 +21,10 @@ export const useTimerContext = () => {
 export const TimerContextProvider: React.FC<Props> = ({ children }) => {
   const [time, setTime] = useState<number>(0);
   const [isStopped, setIsStopped] = useState<boolean>(false);
+
+  function addTime(t: number) {
+    setTime((prev) => prev + 5);
+  }
 
   function getFormattedTime() {
     const date = new Date(0);
@@ -52,6 +57,7 @@ export const TimerContextProvider: React.FC<Props> = ({ children }) => {
   const value = useMemo(() => {
     return {
       time,
+      addTime,
       stopTimer,
       resetTimer,
       getFormattedTime,

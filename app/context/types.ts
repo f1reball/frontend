@@ -18,6 +18,7 @@ type GameContextType = {
 
 type TimerContextType = {
   time: number;
+  addTime: (arg1: number) => void;
   stopTimer: () => void;
   resetTimer: () => void;
   getFormattedTime: () => string;

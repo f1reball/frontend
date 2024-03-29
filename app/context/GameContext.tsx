@@ -22,7 +22,7 @@ export const useGameContext = () => {
 };
 
 export const GameContextProvider: React.FC<Props> = ({ children }) => {
-  const { stopTimer, resetTimer } = useTimerContext();
+  const { addTime, stopTimer, resetTimer } = useTimerContext();
   const [cardData, setCardData] = useState<CardType[]>(() =>
     generateCardArray()
   );
@@ -61,6 +61,7 @@ export const GameContextProvider: React.FC<Props> = ({ children }) => {
               : c
           )
         );
+        addTime(5);
         await new Promise((resolve) => setTimeout(resolve, 200));
         setCardData((prevCardData) =>
           prevCardData.map((c) =>
