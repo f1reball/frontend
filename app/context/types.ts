@@ -11,7 +11,9 @@ type GameContextType = {
   cardData: CardType[];
   selected: Selected;
   isAwaitingFlipback: boolean;
+  isGameComplete: boolean;
   handleCardClick: (arg1: CardType) => void;
+  resetGame: () => void;
 };
 
 export type { CardType, GameContextType, Selected };

@@ -7,7 +7,9 @@ export const GameContext = createContext<GameContextType>({
   cardData: [],
   selected: [],
   isAwaitingFlipback: false,
+  isGameComplete: false,
   handleCardClick: () => undefined,
+  resetGame: () => undefined,
 });
 
 type Props = {
@@ -24,10 +26,11 @@ export const GameContextProvider: React.FC<Props> = ({ children }) => {
   );
   const [selected, setSelected] = useState<Selected>(() => []);
   const [isAwaitingFlipback, setIsAwaitingFlipback] = useState<boolean>(false);
+  const [isGameComplete, setIsGameComplete] = useState<boolean>(false);
 
   function generateCardArray(): CardType[] {
     const arr: CardType[] = [];
-    for (let i = 0; i <= 17; i++) {
+    for (let i = 0; i <= 3; i++) {
       const id1 = v4();
       const id2 = v4();
       arr.push({ id: id1, matchId: id2, imageId: i, status: "hidden" });
@@ -41,14 +44,12 @@ export const GameContextProvider: React.FC<Props> = ({ children }) => {
     setIsAwaitingFlipback(true);
     if (selected.length === 1) {
       if (selected[0].matchId === card.id) {
-        setCardData(
-          cardData.map((c) => {
-            if (c.id === card.id || c.matchId === card.id) {
-              return { ...c, status: "matched" };
-            } else {
-              return c;
-            }
-          })
+        setCardData((prevCardData) =>
+          prevCardData.map((c) =>
+            c.id === card.id || c.matchId === card.id
+              ? { ...c, status: "matched" }
+              : c
+          )
         );
       } else {
         setCardData((prevCardData) =>
@@ -72,14 +73,27 @@ export const GameContextProvider: React.FC<Props> = ({ children }) => {
     setIsAwaitingFlipback(false);
   }
 
+  function resetGame() {
+    setCardData(() => generateCardArray());
+    setSelected(() => []);
+    setIsAwaitingFlipback(false);
+    setIsGameComplete(false);
+  }
+
+  useEffect(() => {
+    setIsGameComplete(cardData.every((c) => c.status === "matched"));
+  }, [cardData]);
+
   const value = useMemo(() => {
     return {
       cardData,
       selected,
       isAwaitingFlipback,
+      isGameComplete,
       handleCardClick,
+      resetGame,
     };
-  }, [cardData, selected]);
+  }, [cardData, selected, isGameComplete]);
 
   return <GameContext.Provider value={value}>{children}</GameContext.Provider>;
 };
