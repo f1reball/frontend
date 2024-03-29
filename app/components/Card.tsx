@@ -22,7 +22,7 @@ export const Card: React.FC<Props> = ({ card }) => {
   }
 
   return (
-    <div
+    <button
       className={`h-24 w-24 flex items-center justify-center ${
         card.status === "matched" ? "bg-blue-500" : "bg-red-500"
       }`}
@@ -31,6 +31,6 @@ export const Card: React.FC<Props> = ({ card }) => {
       {(card.status === "matched" || card.status === "showing") && (
         <h1>{card.imageId}</h1>
       )}
-    </div>
+    </button>
   );
 };
