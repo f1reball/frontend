@@ -1,12 +1,15 @@
+"use client";
 import React from "react";
 import { Card } from "./Card";
+import { useGameContext } from "../context/GameContext";
 
 export const PlayArea: React.FC = ({}) => {
-  const array = Array(36).fill(0);
+  const { cardData } = useGameContext();
+
   return (
     <div className="grid grid-cols-6 gap-3">
-      {array.map((card, index) => {
-        return <Card key={index} id={index} />;
+      {cardData.map((card, index) => {
+        return <Card key={index} id={card.matchId} />;
       })}
     </div>
   );

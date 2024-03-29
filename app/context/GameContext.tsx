@@ -17,8 +17,17 @@ export const useGameContext = () => {
 };
 
 export const GameContextProvider: React.FC<Props> = ({ children }) => {
-  const [cardData, setCardData] = useState<Card[]>(() => []);
+  const [cardData, setCardData] = useState<Card[]>(() => generateCardArray());
   const [selected, setSelected] = useState<Selected>(() => []);
+
+  function generateCardArray() {
+    const arr = [];
+    for (let i = 0; i <= 17; i++) {
+      arr.push({ matchId: i });
+      arr.push({ matchId: i });
+    }
+    return arr.sort(() => 0.5 - Math.random());
+  }
 
   function addSelection(card: Card) {
     setSelected((prev) => {
