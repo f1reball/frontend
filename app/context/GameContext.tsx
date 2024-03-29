@@ -6,6 +6,7 @@ import { v4 } from "uuid";
 export const GameContext = createContext<GameContextType>({
   cardData: [],
   selected: [],
+  isAwaitingFlipback: false,
   handleCardClick: () => undefined,
 });
 
@@ -21,8 +22,8 @@ export const GameContextProvider: React.FC<Props> = ({ children }) => {
   const [cardData, setCardData] = useState<CardType[]>(() =>
     generateCardArray()
   );
-
   const [selected, setSelected] = useState<Selected>(() => []);
+  const [isAwaitingFlipback, setIsAwaitingFlipback] = useState<boolean>(false);
 
   function generateCardArray(): CardType[] {
     const arr: CardType[] = [];
@@ -37,6 +38,7 @@ export const GameContextProvider: React.FC<Props> = ({ children }) => {
   }
 
   async function handleCardClick(card: CardType) {
+    setIsAwaitingFlipback(true);
     if (selected.length === 1) {
       if (selected[0].matchId === card.id) {
         setCardData(
@@ -67,12 +69,14 @@ export const GameContextProvider: React.FC<Props> = ({ children }) => {
     } else {
       setSelected([card]);
     }
+    setIsAwaitingFlipback(false);
   }
 
   const value = useMemo(() => {
     return {
       cardData,
       selected,
+      isAwaitingFlipback,
       handleCardClick,
     };
   }, [cardData, selected]);

@@ -8,13 +8,15 @@ type Props = {
 };
 
 export const Card: React.FC<Props> = ({ card }) => {
-  const { selected, handleCardClick } = useGameContext();
+  const { selected, handleCardClick, isAwaitingFlipback } = useGameContext();
 
   function handleCardClickLogic() {
-    if (card.status !== "matched") {
-      card.status = "showing";
-      if (card !== selected[0]) {
-        handleCardClick(card);
+    if (!isAwaitingFlipback) {
+      if (card.status !== "matched") {
+        card.status = "showing";
+        if (card !== selected[0]) {
+          handleCardClick(card);
+        }
       }
     }
   }

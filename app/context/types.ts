@@ -10,6 +10,7 @@ type Selected = [] | [CardType];
 type GameContextType = {
   cardData: CardType[];
   selected: Selected;
+  isAwaitingFlipback: boolean;
   handleCardClick: (arg1: CardType) => void;
 };
 
