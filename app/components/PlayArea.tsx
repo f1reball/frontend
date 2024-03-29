@@ -9,7 +9,7 @@ export const PlayArea: React.FC = ({}) => {
   return (
     <div className="grid grid-cols-6 gap-3">
       {cardData.map((card, index) => {
-        return <Card key={index} id={card.matchId} />;
+        return <Card key={index} card={card} />;
       })}
     </div>
   );

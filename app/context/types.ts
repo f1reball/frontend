@@ -1,13 +1,16 @@
-type Card = {
-  matchId: number;
+type CardType = {
+  id: string;
+  matchId: string;
+  imageId: number;
+  status: "hidden" | "showing" | "matched";
 };
 
-type Selected = [] | [Card] | [Card, Card];
+type Selected = [] | [CardType];
 
 type GameContextType = {
-  cardData: Card[];
+  cardData: CardType[];
   selected: Selected;
-  addSelection: (arg1: Card) => void;
+  handleCardClick: (arg1: CardType) => void;
 };
 
-export type { Card, GameContextType, Selected };
+export type { CardType, GameContextType, Selected };
