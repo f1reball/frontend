@@ -25,7 +25,7 @@ export const Card: React.FC<Props> = ({ card }) => {
   return (
     <button
       className={`h-[96px] w-[66px] flex items-center justify-center ${
-        card.status === "matched" ? "bg-blue-500" : "bg-red-500"
+        card.status === "matched" ? "bg-transparent" : "bg-red-500"
       }`}
       onClick={handleCardClickLogic}
     >
