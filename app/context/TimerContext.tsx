@@ -3,11 +3,10 @@ import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import type { TimerContextType } from "./types";
 
 export const TimerContext = createContext<TimerContextType>({
-  time: 0,
   addTime: () => undefined,
   stopTimer: () => undefined,
   resetTimer: () => undefined,
-  getFormattedTime: () => "",
+  getFormattedTime: () => "00:00",
 });
 
 type Props = {
@@ -56,7 +55,6 @@ export const TimerContextProvider: React.FC<Props> = ({ children }) => {
 
   const value = useMemo(() => {
     return {
-      time,
       addTime,
       stopTimer,
       resetTimer,
