@@ -10,11 +10,9 @@ describe("Timer Context", () => {
     return (
       <>
         <div data-testid="test-time">{getFormattedTime()}</div>
-        <button data-testid="test-addTime" onClick={() => addTime(5)}>
-          Add Time
-        </button>
-        <button onClick={() => stopTimer()} />
-        <button onClick={() => resetTimer()} />
+        <button data-testid="test-addTime" onClick={() => addTime(5)} />
+        <button data-testid="test-stopTimer" onClick={() => stopTimer()} />
+        <button data-testid="test-resetTimer" onClick={() => resetTimer()} />
       </>
     );
   };
@@ -46,19 +44,36 @@ describe("Timer Context", () => {
       </TimerContext.Provider>
     );
 
-    const testTimer = getByTestId("test-time");
-    const addTimeButton = getByTestId("test-addTime");
+    expect(getByTestId("test-time")).toBeInTheDocument();
+    expect(getByTestId("test-time")).toHaveTextContent("00:00");
 
-    expect(testTimer).toBeInTheDocument();
-    expect(testTimer).toHaveTextContent("00:00");
-
-    await fireEvent.click(addTimeButton);
+    await fireEvent.click(getByTestId("test-addTime"));
     expect(defaultContextValue.addTime).toHaveBeenCalledWith(5);
 
     await rerender(<TestComponent />);
 
     setTimeout(() => {
       expect(getByTestId("test-time")).toHaveTextContent("00:05");
+    }, 100);
+  });
+
+  it("Stops the timer when stopTimer is called", async () => {
+    const { getByTestId, rerender } = render(
+      <TimerContext.Provider value={defaultContextValue}>
+        <TestComponent />
+      </TimerContext.Provider>
+    );
+
+    expect(getByTestId("test-time")).toBeInTheDocument();
+    expect(getByTestId("test-time")).toHaveTextContent("00:00");
+
+    await fireEvent.click(getByTestId("test-stopTimer"));
+    expect(defaultContextValue.stopTimer).toHaveBeenCalled();
+
+    await rerender(<TestComponent />);
+
+    setTimeout(() => {
+      expect(getByTestId("test-time")).toHaveTextContent("00:00");
     }, 100);
   });
 });
