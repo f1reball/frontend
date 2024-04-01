@@ -2,6 +2,7 @@
 import React from "react";
 import { useGameContext } from "../context/GameContext";
 import type { CardType } from "../context/types";
+import Image from "next/image";
 
 type Props = {
   card: CardType;
@@ -23,13 +24,18 @@ export const Card: React.FC<Props> = ({ card }) => {
 
   return (
     <button
-      className={`h-24 w-24 flex items-center justify-center ${
+      className={`h-[96px] w-[66px] flex items-center justify-center ${
         card.status === "matched" ? "bg-blue-500" : "bg-red-500"
       }`}
       onClick={handleCardClickLogic}
     >
       {(card.status === "matched" || card.status === "showing") && (
-        <h1>{card.imageId}</h1>
+        <Image
+          src={`${card.imageId}.svg`}
+          alt={`${card.imageId}`}
+          width={66}
+          height={96}
+        />
       )}
     </button>
   );
